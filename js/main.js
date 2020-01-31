@@ -35,8 +35,10 @@ var COMMENTS =
 
 for (var i = 1; i <= 25; i++) {
   var pictureElement = pictureTemplate.cloneNode(true);
-  picturesElement.appendChild(pictureElement);
+  var fragment = document.createDocumentFragment();
+  fragment.appendChild(pictureElement);
   pictureElement.querySelector('.picture__img').src = 'photos/' + i + '.jpg';
   pictureElement.querySelector('.picture__likes').textContent = Math.round(getRandomValue(15, 200));
   pictureElement.querySelector('.picture__comments').textContent = getRandomValue(1, 5);
+  picturesElement.appendChild(fragment);
 }
