@@ -2,8 +2,8 @@
 
 var picturesElement = document.querySelector('.pictures');
 var pictureTemplate = document.querySelector('#picture')
-.content
-.querySelector('.picture');
+  .content
+  .querySelector('.picture');
 var getRandomValue = function (min, max) {
   return Math.round(Math.random() * (max - min) + min);
 };
@@ -26,19 +26,30 @@ var NAMES = [
   'Эдвард', 'Владимир', 'Степан', 'Юлия', 'Елена',
   'Ольга', 'Маша', 'Регина', 'Кристина', 'Мия'
 ];
-var COMMENTS =
-  {
-    avatar: 'img/avatar-' + getRandomValue(1, 6) + '.svg',
-    message: MESSAGE[getRandomComment(MESSAGE)],
-    name: NAMES[getRandomComment(NAMES)],
-  };
 
-for (var i = 1; i <= 25; i++) {
+var generateRandomPhotos = function (count) {
+  var photos = [];
+  for (var i = 0; i < count; i++) {
+    photos.push({
+      avatar: 'img/avatar-' + getRandomValue(1, 6) + '.svg',
+      message: MESSAGE[getRandomComment(MESSAGE)],
+      name: NAMES[getRandomComment(NAMES)]
+    }
+    );
+  }
+  return photos;
+};
+
+var PHOTO_COUNT = 25;
+
+var photosArr = generateRandomPhotos(PHOTO_COUNT);
+
+for (var i = 1; i <= photosArr.length; i++) {
   var pictureElement = pictureTemplate.cloneNode(true);
   var fragment = document.createDocumentFragment();
   fragment.appendChild(pictureElement);
+  picturesElement.appendChild(fragment);
   pictureElement.querySelector('.picture__img').src = 'photos/' + i + '.jpg';
   pictureElement.querySelector('.picture__likes').textContent = Math.round(getRandomValue(15, 200));
   pictureElement.querySelector('.picture__comments').textContent = getRandomValue(1, 5);
-  picturesElement.appendChild(fragment);
 }
