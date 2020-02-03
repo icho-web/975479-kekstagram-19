@@ -1,16 +1,12 @@
 'use strict';
 
-var picturesElement = document.querySelector('.pictures');
-var pictureTemplate = document.querySelector('#picture')
-  .content
-  .querySelector('.picture');
-var getRandomValue = function (min, max) {
-  return Math.round(Math.random() * (max - min) + min);
-};
-
-var getRandomComment = function (comment) {
-  return Math.floor(Math.random() * comment.length);
-};
+var PHOTO_COUNT = 24;
+var LIKES_MIN = 15;
+var LIKES_MAX = 200;
+var COMMENTS_MIN = 1;
+var COMMENTS_MAX = 5;
+var AVATAR_MIN = 1;
+var AVATAR_MAX = 6;
 var MESSAGE = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -26,12 +22,23 @@ var NAMES = [
   'Эдвард', 'Владимир', 'Степан', 'Юлия', 'Елена',
   'Ольга', 'Маша', 'Регина', 'Кристина', 'Мия'
 ];
+var picturesElement = document.querySelector('.pictures');
+var pictureTemplate = document.querySelector('#picture')
+  .content
+  .querySelector('.picture');
+var getRandomValue = function (min, max) {
+  return Math.round(Math.random() * (max - min) + min);
+};
+
+var getRandomComment = function (comment) {
+  return Math.floor(Math.random() * comment.length);
+};
 
 var generateRandomPhotos = function (count) {
   var photos = [];
   for (var i = 0; i < count; i++) {
     photos.push({
-      avatar: 'img/avatar-' + getRandomValue(1, 6) + '.svg',
+      avatar: 'img/avatar-' + getRandomValue(AVATAR_MIN, AVATAR_MAX) + '.svg',
       message: MESSAGE[getRandomComment(MESSAGE)],
       name: NAMES[getRandomComment(NAMES)]
     }
@@ -40,16 +47,18 @@ var generateRandomPhotos = function (count) {
   return photos;
 };
 
-var PHOTO_COUNT = 25;
-
 var photosArr = generateRandomPhotos(PHOTO_COUNT);
 
-for (var i = 1; i <= photosArr.length; i++) {
-  var pictureElement = pictureTemplate.cloneNode(true);
-  var fragment = document.createDocumentFragment();
-  fragment.appendChild(pictureElement);
-  picturesElement.appendChild(fragment);
-  pictureElement.querySelector('.picture__img').src = 'photos/' + i + '.jpg';
-  pictureElement.querySelector('.picture__likes').textContent = Math.round(getRandomValue(15, 200));
-  pictureElement.querySelector('.picture__comments').textContent = getRandomValue(1, 5);
-}
+var renderPhoto = function (photoRender) {
+  for (var i = 0; i <= photoRender.length; i++) {
+    var pictureElement = pictureTemplate.cloneNode(true);
+    var fragment = document.createDocumentFragment();
+    fragment.appendChild(pictureElement);
+    picturesElement.appendChild(fragment);
+    pictureElement.querySelector('.picture__img').src = 'photos/' + (i + 1) + '.jpg';
+    pictureElement.querySelector('.picture__likes').textContent = Math.round(getRandomValue(LIKES_MIN, LIKES_MAX));
+    pictureElement.querySelector('.picture__comments').textContent = getRandomValue(COMMENTS_MIN, COMMENTS_MAX);
+  }
+};
+
+renderPhoto(photosArr);
