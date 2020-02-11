@@ -198,16 +198,13 @@ imgForm.addEventListener('input', function () {
       textHashtags.setCustomValidity('Максимальная длина одного хэш-тега 20 символов, включая решётку');
     } else if (!(tagsArr.length <= 5)) {
       textHashtags.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
+    } else if (textDescription.value === '') {
+      textHashtags.setCustomValidity('');
+    } else if (!(textDescription.value.length <= 140)) {
+      textHashtags.setCustomValidity('Длина комментария не может составлять больше 140 символов');
     } else {
       textHashtags.setCustomValidity('');
     }
-  }
-  if (textDescription.value === '') {
-    textHashtags.setCustomValidity('');
-  } else if (!(textDescription.value.length <= 140)) {
-    textHashtags.setCustomValidity('Длина комментария не может составлять больше 140 символов');
-  } else {
-    textHashtags.setCustomValidity('');
   }
 });
 
