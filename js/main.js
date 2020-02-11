@@ -184,6 +184,9 @@ effectsItem[5].addEventListener('click', function () {
 });
 
 var tagsArr = '';
+var findDuplicate = function (elem, i, array) {
+  return array.lastIndexOf(elem) === i;
+};
 
 imgForm.addEventListener('input', function () {
   tagsArr = textHashtags.value.split(' ');
@@ -198,6 +201,8 @@ imgForm.addEventListener('input', function () {
       textHashtags.setCustomValidity('Максимальная длина одного хэш-тега 20 символов, включая решётку');
     } else if (!(tagsArr.length <= 5)) {
       textHashtags.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
+    } else if (tagsArr.every(findDuplicate) !== true) {
+      textHashtags.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды. (#ХэшТег и #хэштег считаются одним и тем же тегом)');
     } else if (textDescription.value === '') {
       textHashtags.setCustomValidity('');
     } else if (!(textDescription.value.length <= 140)) {
