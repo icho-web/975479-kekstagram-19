@@ -22,7 +22,6 @@ var COMMENTS_MIN = 1;
 var COMMENTS_MAX = 5;
 var AVATAR_MIN = 1;
 var AVATAR_MAX = 6;
-var IMG_DEFAULT_SCALE = 100;
 var PIN_POSITION = 20;
 var CHROME = 'effects__preview--chrome';
 var SEPIA = 'effects__preview--sepia';
@@ -57,7 +56,6 @@ var getRandomValue = function (min, max) {
 var closeImg = function () {
   imgUploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
-  IMG_DEFAULT_SCALE = 100;
   imgPreview.style.transform = '';
 };
 
@@ -110,21 +108,48 @@ canselImg.addEventListener('click', function () {
   closeImg();
 });
 
-smallerImg.addEventListener('click', function () {
-  if (IMG_DEFAULT_SCALE > 25) {
-    IMG_DEFAULT_SCALE = IMG_DEFAULT_SCALE - 25;
-    imgPreview.style.transform = 'scale' + '(' + IMG_DEFAULT_SCALE * 0.01 + ')';
-    imgValue.value = IMG_DEFAULT_SCALE + '%';
-  }
-});
+var getTransformImage = function (valueOfScale) {
+  imgPreview.style.transform = 'scale(' + (valueOfScale) + ')';
+};
 
-biggerImg.addEventListener('click', function () {
-  if (IMG_DEFAULT_SCALE < 100) {
-    IMG_DEFAULT_SCALE = IMG_DEFAULT_SCALE + 25;
-    imgPreview.style.transform = 'scale' + '(' + IMG_DEFAULT_SCALE * 0.01 + ')';
-    imgValue.value = IMG_DEFAULT_SCALE + '%';
+var setControlValueInc = function (evt) {
+  evt.preventDefault();
+  switch (imgValue.value) {
+    case '25%':
+      imgValue.value = '50%';
+      getTransformImage(0.5);
+      break;
+    case '50%':
+      imgValue.value = '75%';
+      getTransformImage(0.75);
+      break;
+    case '75%':
+      imgValue.value = '100%';
+      getTransformImage(1);
+      break;
   }
-});
+};
+
+var setControlValueDec = function (evt) {
+  evt.preventDefault();
+  switch (imgValue.value) {
+    case '50%':
+      imgValue.value = '25%';
+      getTransformImage(0.25);
+      break;
+    case '75%':
+      imgValue.value = '50%';
+      getTransformImage(0.5);
+      break;
+    case '100%':
+      imgValue.value = '75%';
+      getTransformImage(0.75);
+      break;
+  }
+};
+
+biggerImg.addEventListener('click', setControlValueInc);
+smallerImg.addEventListener('click', setControlValueDec);
 
 var radioCheck = function (effect, number) {
   if (effectsRadio[number].checked === true) {
@@ -146,6 +171,18 @@ var effectsLevelValue = function (effect) {
     imgPreview.style.filter = effect;
   });
 };
+var firstFormula = PIN_POSITION * (1 / 100) + ')';
+var secondFormula = PIN_POSITION + '%' + ')';
+var thirdFormula = PIN_POSITION * (3 / 100) + 'px' + ')';
+var fourthFormula = PIN_POSITION * (3 / 100) + ')';
+for (var j = 0; j < effectsItem.length; j++) {
+  var getEffect = function (effects, effect, formula, filter) {
+    effects = effect + '(' + formula;
+    imgPreview.style.filter = effects;
+    radioCheck(filter, [j]);
+    effectsLevelValue(effects);
+  };
+}
 
 effectsItem[0].addEventListener('click', function () {
   imgPreview.style.filter = '';
@@ -153,34 +190,19 @@ effectsItem[0].addEventListener('click', function () {
   effectsLevelValue('');
 });
 effectsItem[1].addEventListener('click', function () {
-  var chromeEffect = 'grayscale' + '(' + PIN_POSITION * (1 / 100) + ')';
-  imgPreview.style.filter = chromeEffect;
-  radioCheck(CHROME, 1);
-  effectsLevelValue(chromeEffect);
+  getEffect('chromeEffect', 'grayscale', firstFormula, CHROME);
 });
 effectsItem[2].addEventListener('click', function () {
-  var sepiaEffect = 'sepia' + '(' + PIN_POSITION * (1 / 100) + ')';
-  imgPreview.style.filter = sepiaEffect;
-  radioCheck(SEPIA, 2);
-  effectsLevelValue(sepiaEffect);
+  getEffect('sepiaEffect', 'sepia', firstFormula, SEPIA);
 });
 effectsItem[3].addEventListener('click', function () {
-  var marvinEffect = 'invert' + '(' + PIN_POSITION + '%' + ')';
-  imgPreview.style.filter = marvinEffect;
-  radioCheck(MARVIN, 3);
-  effectsLevelValue(marvinEffect);
+  getEffect('marvinEffect', 'invert', secondFormula, MARVIN);
 });
 effectsItem[4].addEventListener('click', function () {
-  var blurEffect = 'blur' + '(' + PIN_POSITION * (3 / 100) + 'px' + ')';
-  imgPreview.style.filter = blurEffect;
-  radioCheck(PHOBOS, 4);
-  effectsLevelValue(blurEffect);
+  getEffect('blurEffect', 'blur', thirdFormula, PHOBOS);
 });
 effectsItem[5].addEventListener('click', function () {
-  var heatEffect = 'brightness' + '(' + PIN_POSITION * (3 / 100) + ')';
-  imgPreview.style.filter = heatEffect;
-  radioCheck(HEAT, 5);
-  effectsLevelValue(heatEffect);
+  getEffect('heatEffect', 'brightness', fourthFormula, HEAT);
 });
 
 var tagsArr = '';
