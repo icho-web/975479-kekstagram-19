@@ -16,18 +16,17 @@ var NAMES = [
   'Ольга', 'Маша', 'Регина', 'Кристина', 'Мия'
 ];
 var PHOTO_COUNT = 24;
+var MAX_TAGS = 20;
+var MAX_TAG_LENGTH = 20;
+var MAX_COMMENT_LENGTH = 140;
 var LIKES_MIN = 15;
 var LIKES_MAX = 200;
 var COMMENTS_MIN = 1;
 var COMMENTS_MAX = 5;
 var AVATAR_MIN = 1;
 var AVATAR_MAX = 6;
-var PIN_POSITION = 20;
-var CHROME = 'effects__preview--chrome';
-var SEPIA = 'effects__preview--sepia';
-var MARVIN = 'effects__preview--marvin';
-var PHOBOS = 'effects__preview--phobos';
-var HEAT = 'effects__preview--heat';
+var PIN_POSITION = 0.2;
+var effectLevelValue = document.querySelector('.effect-level__value');
 var picturesElement = document.querySelector('.pictures');
 var body = document.querySelector('.body');
 var imgUpload = document.querySelector('.img-upload__input');
@@ -37,11 +36,7 @@ var smallerImg = document.querySelector('.scale__control--smaller');
 var biggerImg = document.querySelector('.scale__control--bigger');
 var imgValue = document.querySelector('.scale__control--value');
 var imgPreview = document.querySelector('.img__preview');
-var effectsItem = document.querySelectorAll('.effects__item');
-var effectsRadio = document.querySelectorAll('.effects__radio');
-var effectPin = document.querySelector('.effect-level__pin');
-var effectsLevel = document.querySelector('.effect-level__value');
-var effectsDepth = document.querySelector('.effect-level__depth');
+var effectsList = document.querySelector('.effects__list');
 var textHashtags = document.querySelector('.text__hashtags');
 var textDescription = document.querySelector('.text__description');
 var imgForm = document.querySelector('.img-upload__form');
@@ -151,58 +146,121 @@ var setControlValueDec = function (evt) {
 biggerImg.addEventListener('click', setControlValueInc);
 smallerImg.addEventListener('click', setControlValueDec);
 
-var radioCheck = function (effect, number) {
-  if (effectsRadio[number].checked === true) {
-    imgPreview.classList.add(effect);
-  } else {
-    imgPreview.classList.remove(CHROME);
-    imgPreview.classList.remove(SEPIA);
-    imgPreview.classList.remove(MARVIN);
-    imgPreview.classList.remove(PHOBOS);
-    imgPreview.classList.remove(HEAT);
+var PREVIEW_CLASS_BEGIN = 'effects__preview--';
+
+var Effect = {
+  chrome: {
+    NAME: 'chrome',
+    ATTRIBUTE: 'grayscale',
+    MIN_VALUE: 0,
+    MAX_VALUE: 1,
+    UNIT: ''
+  },
+  sepia: {
+    NAME: 'sepia',
+    ATTRIBUTE: 'sepia',
+    MIN_VALUE: 0,
+    MAX_VALUE: 1,
+    UNIT: ''
+  },
+  marvin: {
+    NAME: 'marvin',
+    ATTRIBUTE: 'invert',
+    MIN_VALUE: 0,
+    MAX_VALUE: 100,
+    UNIT: '%'
+  },
+  phobos: {
+    NAME: 'phobos',
+    ATTRIBUTE: 'blur',
+    MIN_VALUE: 0,
+    MAX_VALUE: 3,
+    UNIT: 'px'
+  },
+  heat: {
+    NAME: 'heat',
+    ATTRIBUTE: 'brightness',
+    MIN_VALUE: 1,
+    MAX_VALUE: 3,
+    UNIT: ''
+  },
+  none: {
+    NAME: 'none'
   }
 };
 
-var effectsLevelValue = function (effect) {
-  effectPin.addEventListener('mouseup', function () {
-    effectPin.style.left = PIN_POSITION + '%';
-    effectsLevel.value = PIN_POSITION;
-    effectsDepth.style.width = PIN_POSITION + '%';
-    imgPreview.style.filter = effect;
-  });
-};
-var firstFormula = PIN_POSITION * (1 / 100) + ')';
-var secondFormula = PIN_POSITION + '%' + ')';
-var thirdFormula = PIN_POSITION * (3 / 100) + 'px' + ')';
-var fourthFormula = PIN_POSITION * (3 / 100) + ')';
-for (var j = 0; j < effectsItem.length; j++) {
-  var getEffect = function (effects, effect, formula, filter) {
-    effects = effect + '(' + formula;
-    imgPreview.style.filter = effects;
-    radioCheck(filter, [j]);
-    effectsLevelValue(effects);
-  };
-}
+var currentEffect = '';
 
-effectsItem[0].addEventListener('click', function () {
-  imgPreview.style.filter = '';
-  radioCheck('img__preview', 0);
-  effectsLevelValue('');
-});
-effectsItem[1].addEventListener('click', function () {
-  getEffect('chromeEffect', 'grayscale', firstFormula, CHROME);
-});
-effectsItem[2].addEventListener('click', function () {
-  getEffect('sepiaEffect', 'sepia', firstFormula, SEPIA);
-});
-effectsItem[3].addEventListener('click', function () {
-  getEffect('marvinEffect', 'invert', secondFormula, MARVIN);
-});
-effectsItem[4].addEventListener('click', function () {
-  getEffect('blurEffect', 'blur', thirdFormula, PHOBOS);
-});
-effectsItem[5].addEventListener('click', function () {
-  getEffect('heatEffect', 'brightness', fourthFormula, HEAT);
+var compileEffectStyle = function (elem, value) {
+  return elem.ATTRIBUTE + '(' + (elem.MIN_VALUE + value * (elem.MAX_VALUE - elem.MIN_VALUE)) + elem.UNIT + ')';
+};
+
+var compileEffectValue = function (elem, value) {
+  return (elem.MIN_VALUE + value * (elem.MAX_VALUE - elem.MIN_VALUE)) * 100;
+};
+
+var getFilterValue = function (value) {
+  var result;
+  switch (currentEffect) {
+    case PREVIEW_CLASS_BEGIN + Effect.chrome.NAME:
+      result = compileEffectStyle(Effect.chrome, value);
+      break;
+    case PREVIEW_CLASS_BEGIN + Effect.sepia.NAME:
+      result = compileEffectStyle(Effect.sepia, value);
+      break;
+    case PREVIEW_CLASS_BEGIN + Effect.marvin.NAME:
+      result = compileEffectStyle(Effect.marvin, value);
+      break;
+    case PREVIEW_CLASS_BEGIN + Effect.phobos.NAME:
+      result = compileEffectStyle(Effect.phobos, value);
+      break;
+    case PREVIEW_CLASS_BEGIN + Effect.heat.NAME:
+      result = compileEffectStyle(Effect.heat, value);
+      break;
+    case Effect.none.NAME:
+      result = Effect.none.NAME;
+      break;
+  }
+  return result;
+};
+
+var getFieldsetInputValue = function (value) {
+  var result;
+  switch (currentEffect) {
+    case PREVIEW_CLASS_BEGIN + Effect.chrome.NAME:
+      result = compileEffectValue(Effect.chrome, value);
+      break;
+    case PREVIEW_CLASS_BEGIN + Effect.sepia.NAME:
+      result = compileEffectValue(Effect.sepia, value);
+      break;
+    case PREVIEW_CLASS_BEGIN + Effect.marvin.NAME:
+      result = compileEffectValue(Effect.marvin, value);
+      break;
+    case PREVIEW_CLASS_BEGIN + Effect.phobos.NAME:
+      result = compileEffectValue(Effect.phobos, value);
+      break;
+    case PREVIEW_CLASS_BEGIN + Effect.heat.NAME:
+      result = compileEffectValue(Effect.heat, value);
+      break;
+  }
+  return result;
+};
+
+effectsList.addEventListener('click', function (evt) {
+  var target = evt.target;
+  imgPreview.classList.remove(
+      'effects__preview--chrome',
+      'effects__preview--sepia',
+      'effects__preview--marvin',
+      'effects__preview--phobos',
+      'effects__preview--heat',
+      'effects__preview--none');
+  if (target.tagName !== 'UL' && target.tagName !== 'SPAN' && target.tagName !== 'LABEL' && target.tagName !== 'LI') {
+    imgPreview.classList.add(PREVIEW_CLASS_BEGIN + target.value);
+    currentEffect = PREVIEW_CLASS_BEGIN + target.value;
+    imgPreview.style.filter = getFilterValue(PIN_POSITION);
+    effectLevelValue.value = getFieldsetInputValue(PIN_POSITION);
+  }
 });
 
 var tagsArr = '';
@@ -219,16 +277,16 @@ imgForm.addEventListener('input', function () {
       textHashtags.setCustomValidity('Хэш-тег начинается с символа # (решётка)');
     } else if (!(/^#[а-яА-ЯёЁa-zA-Z0-9]+$/).test(tagsArr[i])) {
       textHashtags.setCustomValidity('Строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т.п.), символы пунктуации (тире, дефис, запятая и т.п.), эмодзи и т.д');
-    } else if (tagsArr[i].length > 20) {
-      textHashtags.setCustomValidity('Максимальная длина одного хэш-тега 20 символов, включая решётку');
-    } else if (!(tagsArr.length <= 5)) {
-      textHashtags.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
+    } else if (tagsArr[i].length > MAX_TAG_LENGTH) {
+      textHashtags.setCustomValidity('Максимальная длина одного хэш-тега ' + MAX_TAG_LENGTH + ' символов, включая решётку');
+    } else if (!(tagsArr.length <= MAX_TAGS)) {
+      textHashtags.setCustomValidity('Нельзя указать больше ' + MAX_TAGS + ' хэш-тегов');
     } else if (tagsArr.every(findDuplicate) !== true) {
       textHashtags.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды. (#ХэшТег и #хэштег считаются одним и тем же тегом)');
     } else if (textDescription.value === '') {
       textHashtags.setCustomValidity('');
-    } else if (!(textDescription.value.length <= 140)) {
-      textHashtags.setCustomValidity('Длина комментария не может составлять больше 140 символов');
+    } else if (!(textDescription.value.length <= MAX_COMMENT_LENGTH)) {
+      textHashtags.setCustomValidity('Длина комментария не может составлять больше ' + MAX_COMMENT_LENGTH + ' символов');
     } else {
       textHashtags.setCustomValidity('');
     }
