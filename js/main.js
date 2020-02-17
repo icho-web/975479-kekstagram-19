@@ -35,7 +35,9 @@ var canselImg = document.querySelector('.img-upload__cancel');
 var smallerImg = document.querySelector('.scale__control--smaller');
 var biggerImg = document.querySelector('.scale__control--bigger');
 var imgValue = document.querySelector('.scale__control--value');
+var imgEffectLevel = document.querySelector('.img-upload__effect-level');
 var imgPreview = document.querySelector('.img__preview');
+var effectNone = document.querySelector('.effect-none');
 var effectsList = document.querySelector('.effects__list');
 var textHashtags = document.querySelector('.text__hashtags');
 var textDescription = document.querySelector('.text__description');
@@ -217,8 +219,8 @@ var getFilterValue = function (value) {
     case PREVIEW_CLASS_BEGIN + Effect.heat.NAME:
       result = compileEffectStyle(Effect.heat, value);
       break;
-    case Effect.none.NAME:
-      result = Effect.none.NAME;
+    case PREVIEW_CLASS_BEGIN + Effect.none.NAME:
+      result = '';
       break;
   }
   return result;
@@ -246,6 +248,7 @@ var getFieldsetInputValue = function (value) {
   return result;
 };
 
+imgEffectLevel.style.display = 'none';
 effectsList.addEventListener('click', function (evt) {
   var target = evt.target;
   imgPreview.classList.remove(
@@ -255,7 +258,12 @@ effectsList.addEventListener('click', function (evt) {
       'effects__preview--phobos',
       'effects__preview--heat',
       'effects__preview--none');
-  if (target.tagName !== 'UL' && target.tagName !== 'SPAN' && target.tagName !== 'LABEL' && target.tagName !== 'LI') {
+  if (effectNone.checked) {
+    imgEffectLevel.style.display = 'none';
+    imgPreview.style = 'none';
+    effectLevelValue.value = 'none';
+  } else if (target.tagName !== 'UL' && target.tagName !== 'SPAN' && target.tagName !== 'LABEL' && target.tagName !== 'LI') {
+    imgEffectLevel.style.display = 'block';
     imgPreview.classList.add(PREVIEW_CLASS_BEGIN + target.value);
     currentEffect = PREVIEW_CLASS_BEGIN + target.value;
     imgPreview.style.filter = getFilterValue(PIN_POSITION);
