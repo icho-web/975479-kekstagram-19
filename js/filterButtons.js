@@ -4,8 +4,18 @@
   var MIN_RANDOM_PHOTOS = 0;
   var MAX_RANDOM_PHOTOS = 10;
   var buttonRandom = document.querySelector('.img-filters__button--random');
-  var buttonReset = document.querySelector('.img-filters__button--active');
   var buttonDiscussed = document.querySelector('.img-filters__button--discussed');
+  var buttonReset = document.querySelector('.img-filters__button--reset');
+  var form = document.querySelector('.img-filters__form');
+  var formButtons = document.querySelectorAll('.img-filters__button');
+
+  form.addEventListener('click', function (evt) {
+    var target = evt.target;
+    for (var i = 0; i < formButtons.length; i++) {
+      formButtons[i].classList.remove('img-filters__button--active');
+    }
+    target.classList.add('img-filters__button--active');
+  });
 
   var shuffleArray = function (array) {
     for (var i = array.length - 1; i > 0; i--) {
