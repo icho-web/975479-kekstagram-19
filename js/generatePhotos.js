@@ -1,14 +1,13 @@
 'use strict';
 
 (function () {
-  var PHOTO_COUNT = 24;
   var picturesElement = document.querySelector('.pictures');
   var pictureTemplate = document.querySelector('#picture')
     .content
     .querySelector('.picture');
 
-  var renderPhoto = function (photos) {
-    for (var i = 0; i <= PHOTO_COUNT; i++) {
+  var renderPhoto = function (photos, length) {
+    for (var i = 0; i < length; i++) {
       var pictureElement = pictureTemplate.cloneNode(true);
       var fragment = document.createDocumentFragment();
       fragment.appendChild(pictureElement);

@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var MIN_RANDOM_PHOTOS = 0;
+  var MAX_RANDOM_PHOTOS = 10;
   var buttonRandom = document.querySelector('.img-filters__button--random');
   var buttonReset = document.querySelector('.img-filters__button--active');
   var buttonDiscussed = document.querySelector('.img-filters__button--discussed');
@@ -25,7 +27,7 @@
     random: function () {
       removePhotos();
       shuffleArray(window.photosArr);
-      window.generate.renderPhoto(window.photosArr);
+      window.generate.renderPhoto(window.photosArr.slice(MIN_RANDOM_PHOTOS, MAX_RANDOM_PHOTOS), window.photosArr.slice(MIN_RANDOM_PHOTOS, MAX_RANDOM_PHOTOS).length);
     },
 
     reset: function () {
@@ -39,7 +41,7 @@
       byComments.sort(function (a, b) {
         return b.comments.length - a.comments.length;
       });
-      window.generate.renderPhoto(byComments);
+      window.generate.renderPhoto(byComments, window.photosArr.length);
     }
 
   };

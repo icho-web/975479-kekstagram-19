@@ -11,7 +11,7 @@
 
     xhr.addEventListener('load', function () {
       window.photosArr = xhr.response;
-      onLoad(xhr.response);
+      onLoad(xhr.response, xhr.response.length);
       filterButtons.classList.remove('img-filters--inactive');
     });
 
