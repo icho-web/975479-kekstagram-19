@@ -2,8 +2,6 @@
 
 (function () {
   var PHOTO_COUNT = 24;
-  var MIN_COMMENTS = 1;
-  var MAX_COMMENTS = 5;
   var picturesElement = document.querySelector('.pictures');
   var pictureTemplate = document.querySelector('#picture')
     .content
@@ -17,9 +15,12 @@
       picturesElement.appendChild(fragment);
       pictureElement.querySelector('.picture__img').src = photos[i].url;
       pictureElement.querySelector('.picture__likes').textContent = photos[i].likes;
-      pictureElement.querySelector('.picture__comments').textContent = window.utils.getRandomValue(MIN_COMMENTS, MAX_COMMENTS);
+      pictureElement.querySelector('.picture__comments').textContent = photos[i].comments.length;
     }
   };
 
   window.backend.load(renderPhoto);
+  window.generate = {
+    renderPhoto: renderPhoto
+  };
 })();
