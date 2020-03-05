@@ -7,15 +7,15 @@
     .querySelector('.picture');
 
   var renderPhoto = function (photos) {
-    for (var i = 0; i < photos.length; i++) {
+    photos.forEach(function (item) {
       var pictureElement = pictureTemplate.cloneNode(true);
       var fragment = document.createDocumentFragment();
       fragment.appendChild(pictureElement);
       picturesElement.appendChild(fragment);
-      pictureElement.querySelector('.picture__img').src = photos[i].url;
-      pictureElement.querySelector('.picture__likes').textContent = photos[i].likes;
-      pictureElement.querySelector('.picture__comments').textContent = photos[i].comments.length;
-    }
+      pictureElement.querySelector('.picture__img').src = item.url;
+      pictureElement.querySelector('.picture__likes').textContent = item.likes;
+      pictureElement.querySelector('.picture__comments').textContent = item.comments.length;
+    });
   };
 
   window.backend.load(renderPhoto);

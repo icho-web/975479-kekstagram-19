@@ -22,9 +22,9 @@
 
   var removePhotos = function () {
     var picture = document.querySelectorAll('.picture');
-    for (var i = 0; i < picture.length; i++) {
-      picture[i].parentNode.removeChild(picture[i]);
-    }
+    picture.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
   };
 
   var random = function () {
