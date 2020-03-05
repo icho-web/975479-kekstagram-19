@@ -6,8 +6,8 @@
     .content
     .querySelector('.picture');
 
-  var renderPhoto = function (photos, length) {
-    for (var i = 0; i < length; i++) {
+  var renderPhoto = function (photos) {
+    for (var i = 0; i < photos.length; i++) {
       var pictureElement = pictureTemplate.cloneNode(true);
       var fragment = document.createDocumentFragment();
       fragment.appendChild(pictureElement);

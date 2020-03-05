@@ -1,25 +1,25 @@
 'use strict';
 
 (function () {
-  var filterButtons = document.querySelector('.img-filters');
+  var URL = 'https://js.dump.academy/kekstagram/data';
+  var xhr = new XMLHttpRequest();
+  xhr.responseType = 'json';
 
   window.load = function (onLoad) {
-    var URL = 'https://js.dump.academy/kekstagram/data';
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
     xhr.open('GET', URL);
 
     xhr.addEventListener('load', function () {
       window.photosArr = xhr.response;
+      window.defaultArr = xhr.response;
       onLoad(xhr.response, xhr.response.length);
-      filterButtons.classList.remove('img-filters--inactive');
     });
 
     xhr.send();
   };
 
   window.backend = {
-    load: window.load
+    load: window.load,
+    xhr: xhr
   };
 
 })();
