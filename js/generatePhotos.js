@@ -31,7 +31,13 @@
     }
   };
 
-  window.renderBigPicture = function (target) {
+  window.renderBigPicture = function (evt) {
+    var target = evt.target;
+    if (target.tagName === 'A') {
+      target = evt.target.firstElementChild;
+    } else if (target.tagName === 'IMG') {
+      target = evt.target;
+    }
     var index = target.src.match(/\d+.jpg/);
     var indexPhoto = parseInt(index[0].match(/\d+/)[0], 10);
     document.body.classList.add('modal-open');

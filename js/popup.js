@@ -31,15 +31,13 @@
   });
 
   picturesElement.addEventListener('click', function (evt) {
-    var target = evt.target;
-    window.renderBigPicture(target);
+    window.renderBigPicture(evt);
   });
 
   picturesElement.addEventListener('keydown', function (evt) {
-    var target = evt.target.firstElementChild;
     if (evt.key === 'Enter') {
       evt.stopPropagation();
-      window.renderBigPicture(target);
+      window.renderBigPicture(evt);
     } else if (evt.key === 'Escape') {
       window.pictureCancel();
     }
