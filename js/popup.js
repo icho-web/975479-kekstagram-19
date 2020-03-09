@@ -5,6 +5,7 @@
   var imgUpload = document.querySelector('.img-upload__input');
   var imgUploadOverlay = document.querySelector('.img-upload__overlay');
   var canselImg = document.querySelector('.img-upload__cancel');
+  var picturesElement = document.querySelector('.pictures');
 
   var closeImg = function () {
     imgUploadOverlay.classList.add('hidden');
@@ -28,4 +29,20 @@
   canselImg.addEventListener('click', function () {
     closeImg();
   });
+
+  picturesElement.addEventListener('click', function (evt) {
+    var target = evt.target;
+    window.renderBigPicture(target);
+  });
+
+  picturesElement.addEventListener('keydown', function (evt) {
+    var target = evt.target.firstElementChild;
+    if (evt.key === 'Enter') {
+      evt.stopPropagation();
+      window.renderBigPicture(target);
+    } else if (evt.key === 'Escape') {
+      window.pictureCancel();
+    }
+  });
+
 })();

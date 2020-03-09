@@ -31,8 +31,7 @@
     }
   };
 
-  picturesElement.addEventListener('click', function (evt) {
-    var target = evt.target;
+  window.renderBigPicture = function (target) {
     var index = target.src.match(/\d+.jpg/);
     var indexPhoto = parseInt(index[0].match(/\d+/)[0], 10);
     document.body.classList.add('modal-open');
@@ -40,7 +39,7 @@
     comments.innerHTML = '';
     bigPicture.classList.remove('hidden');
     bigPictureImg.src = window.photo.url;
-    description.textContent = window.window.photo.description;
+    description.textContent = window.photo.description;
     likes.textContent = window.photo.likes;
 
     if (picturesCount < window.photo.comments.length) {
@@ -50,8 +49,7 @@
       render(picturesCount, window.photo);
       commentsLoader.classList.add('hidden');
     }
-
-  });
+  };
 
   commentsLoader.addEventListener('click', function () {
     comments.innerHTML = '';
@@ -65,12 +63,14 @@
     render(picturesCount, window.photo);
   });
 
-  bigPictureCancel.addEventListener('click', function () {
+  window.pictureCancel = function () {
     picturesCount = 5;
     bigPicture.classList.add('hidden');
     commentsLoader.classList.remove('hidden');
     document.body.classList.remove('modal-open');
-  });
+  };
+
+  bigPictureCancel.addEventListener('click', window.pictureCancel);
 
   var renderPhoto = function (photos) {
     photos.forEach(function (item) {
