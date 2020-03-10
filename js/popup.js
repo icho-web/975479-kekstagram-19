@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var picturesElement = document.querySelector('.pictures');
   var body = document.querySelector('.body');
   var imgUpload = document.querySelector('.img-upload__input');
   var imgUploadOverlay = document.querySelector('.img-upload__overlay');
@@ -27,5 +28,19 @@
 
   canselImg.addEventListener('click', function () {
     closeImg();
+  });
+
+  picturesElement.addEventListener('click', function (evt) {
+    if (evt.target.tagName === 'IMG') {
+      window.renderBigPicture(evt);
+    }
+  });
+
+  picturesElement.addEventListener('keydown', function (evt) {
+    if (evt.target.tagName === 'A' && evt.key === 'Enter') {
+      window.renderBigPicture(evt);
+    } else if (evt.key === 'Escape') {
+      window.pictureCancel();
+    }
   });
 })();

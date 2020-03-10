@@ -22,4 +22,5 @@
   window.generate = {
     renderPhoto: renderPhoto
   };
+
 })();
