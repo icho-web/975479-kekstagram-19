@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var PICTURES_COUNT = 5;
   var commentsLoader = document.querySelector('.social__comments-loader');
   var bigPicture = document.querySelector('.big-picture');
   var bigPictureImg = document.querySelector('.big-picture__img img');
@@ -12,7 +13,7 @@
   var comment = document.querySelector('.social__comment');
   var likes = document.querySelector('.likes-count');
   var description = document.querySelector('.social__caption');
-  var picturesCount = 5;
+  var picturesCount = PICTURES_COUNT;
 
   var render = function (count, item) {
     for (var i = 0; i < count; i++) {
@@ -55,8 +56,8 @@
   commentsLoader.addEventListener('click', function () {
     comments.innerHTML = '';
     var length = window.photo.comments.length - picturesCount;
-    if (length > 5) {
-      picturesCount = picturesCount + 5;
+    if (length > PICTURES_COUNT) {
+      picturesCount = picturesCount + PICTURES_COUNT;
     } else {
       picturesCount = window.photo.comments.length;
       commentsLoader.classList.add('hidden');
@@ -65,7 +66,7 @@
   });
 
   window.pictureCancel = function () {
-    picturesCount = 5;
+    picturesCount = PICTURES_COUNT;
     bigPicture.classList.add('hidden');
     commentsLoader.classList.remove('hidden');
     document.body.classList.remove('modal-open');
