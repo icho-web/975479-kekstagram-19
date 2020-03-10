@@ -27,18 +27,18 @@
     });
   };
 
-  var random = function () {
+  var getRandomPhotos = function () {
     removePhotos();
     shuffleArray(window.photosArr);
     window.generate.renderPhoto(window.photosArr.slice(MIN_RANDOM_PHOTOS, MAX_RANDOM_PHOTOS), window.photosArr.slice(MIN_RANDOM_PHOTOS, MAX_RANDOM_PHOTOS).length);
   };
 
-  var reset = function () {
+  var getResetPhotos = function () {
     removePhotos();
     window.generate.renderPhoto(window.defaultArr);
   };
 
-  var discussed = function () {
+  var getDiscussedPhotos = function () {
     removePhotos();
     var byComments = window.photosArr.slice(0);
     byComments.sort(function (a, b) {
@@ -60,13 +60,13 @@
   var changeFilterSort = function () {
     switch (target.id) {
       case 'filter-default':
-        window.debounce(reset);
+        window.debounce(getResetPhotos);
         break;
       case 'filter-random':
-        window.debounce(random);
+        window.debounce(getRandomPhotos);
         break;
       case 'filter-discussed':
-        window.debounce(discussed);
+        window.debounce(getDiscussedPhotos);
         break;
     }
   };
