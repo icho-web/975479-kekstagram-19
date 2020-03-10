@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var MAX_LENGTH = 453;
+  var MIN_LENGTH = 0;
   var dialogHandler = document.querySelector('.effect-level__pin');
   var effectLevelValue = document.querySelector('.effect-level__value');
   var effectLevelDepth = document.querySelector('.effect-level__depth');
@@ -11,17 +13,17 @@
       moveEvt.preventDefault();
 
       var x = startCoordsX - moveEvt.clientX;
-      if (startCoordsX > 624) {
+      if (parseInt(dialogHandler.style.left, 10) > MAX_LENGTH) {
         x = 0;
-        dialogHandler.style.left = 454 + 'px';
-      } else if (startCoordsX < 172) {
+        dialogHandler.style.left = MAX_LENGTH + 'px';
+      } else if (parseInt(dialogHandler.style.left, 10) < MIN_LENGTH) {
         x = 0;
         dialogHandler.style.left = 0;
       }
 
       startCoordsX = moveEvt.clientX;
       dialogHandler.style.left = (dialogHandler.offsetLeft - x) + 'px';
-      window.coordsX = ((parseInt(dialogHandler.style.left, 10) * 100) / 454) / 100;
+      window.coordsX = ((parseInt(dialogHandler.style.left, 10) * 100) / MAX_LENGTH) / 100;
       window.utils.imgPreview.style.filter = window.getFilterValue(window.coordsX);
       effectLevelValue.value = window.getFieldsetInputValue(window.coordsX);
       effectLevelDepth.style.width = window.coordsX * 100 + '%';
