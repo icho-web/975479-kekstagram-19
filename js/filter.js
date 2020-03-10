@@ -1,7 +1,8 @@
 'use strict';
 
 (function () {
-  var PIN_POSITION = 0.2;
+  var dialogHandler = document.querySelector('.effect-level__pin');
+  var effectLevelDepth = document.querySelector('.effect-level__depth');
   var effectLevelValue = document.querySelector('.effect-level__value');
   var effectsList = document.querySelector('.effects__list');
   var imgEffectLevel = document.querySelector('.img-upload__effect-level');
@@ -60,7 +61,7 @@
     return (elem.MIN_VALUE + value * (elem.MAX_VALUE - elem.MIN_VALUE)) * 100;
   };
 
-  var getFilterValue = function (value) {
+  window.getFilterValue = function (value) {
     var result;
     switch (currentEffect) {
       case PREVIEW_CLASS_BEGIN + Effect.chrome.NAME:
@@ -85,7 +86,7 @@
     return result;
   };
 
-  var getFieldsetInputValue = function (value) {
+  window.getFieldsetInputValue = function (value) {
     var result;
     switch (currentEffect) {
       case PREVIEW_CLASS_BEGIN + Effect.chrome.NAME:
@@ -120,13 +121,15 @@
     if (effectNone.checked) {
       imgEffectLevel.style.display = 'none';
       window.utils.imgPreview.style = 'none';
-      effectLevelValue.value = 'none';
+      effectLevelValue.value = '';
     } else if (target.tagName !== 'UL' && target.tagName !== 'SPAN' && target.tagName !== 'LABEL' && target.tagName !== 'LI') {
+      dialogHandler.style.left = '100%';
+      effectLevelValue.value = 100;
+      effectLevelDepth.style.width = '100%';
       imgEffectLevel.style.display = 'block';
       window.utils.imgPreview.classList.add(PREVIEW_CLASS_BEGIN + target.value);
       currentEffect = PREVIEW_CLASS_BEGIN + target.value;
-      window.utils.imgPreview.style.filter = getFilterValue(PIN_POSITION);
-      effectLevelValue.value = getFieldsetInputValue(PIN_POSITION);
+      window.utils.imgPreview.style = window.getFilterValue(1);
     }
   });
 })();
