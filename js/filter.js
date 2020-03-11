@@ -1,14 +1,14 @@
 'use strict';
 
 (function () {
+  var PREVIEW_CLASS_BEGIN = 'effects__preview--';
   var dialogHandler = document.querySelector('.effect-level__pin');
   var effectLevelDepth = document.querySelector('.effect-level__depth');
   var effectLevelValue = document.querySelector('.effect-level__value');
   var effectsList = document.querySelector('.effects__list');
   var imgEffectLevel = document.querySelector('.img-upload__effect-level');
   var effectNone = document.querySelector('.effect__none');
-
-  var PREVIEW_CLASS_BEGIN = 'effects__preview--';
+  var imgValue = document.querySelector('.scale__control--value');
 
   var Effect = {
     chrome: {
@@ -96,13 +96,13 @@
         result = compileEffectValue(Effect.sepia, value);
         break;
       case PREVIEW_CLASS_BEGIN + Effect.marvin.NAME:
-        result = compileEffectValue(Effect.marvin, value);
+        result = compileEffectValue(Effect.marvin, value) / 100;
         break;
       case PREVIEW_CLASS_BEGIN + Effect.phobos.NAME:
-        result = compileEffectValue(Effect.phobos, value);
+        result = compileEffectValue(Effect.phobos, value) / 3;
         break;
       case PREVIEW_CLASS_BEGIN + Effect.heat.NAME:
-        result = compileEffectValue(Effect.heat, value);
+        result = compileEffectValue(Effect.heat, value) / 3;
         break;
     }
     return result;
@@ -111,18 +111,16 @@
   imgEffectLevel.style.display = 'none';
   effectsList.addEventListener('click', function (evt) {
     var target = evt.target;
-    window.utils.imgPreview.classList.remove(
-        'effects__preview--chrome',
-        'effects__preview--sepia',
-        'effects__preview--marvin',
-        'effects__preview--phobos',
-        'effects__preview--heat',
-        'effects__preview--none');
+    if (currentEffect) {
+      window.utils.imgPreview.classList.remove(currentEffect);
+    }
     if (effectNone.checked) {
       imgEffectLevel.style.display = 'none';
       window.utils.imgPreview.style = 'none';
+      imgValue.value = '100%';
       effectLevelValue.value = '';
     } else if (target.tagName !== 'UL' && target.tagName !== 'SPAN' && target.tagName !== 'LABEL' && target.tagName !== 'LI') {
+      imgValue.value = '100%';
       dialogHandler.style.left = '100%';
       effectLevelValue.value = 100;
       effectLevelDepth.style.width = '100%';
