@@ -10,8 +10,8 @@
     xhr.open('GET', URL + '/data');
 
     xhr.addEventListener('load', function () {
+      window.defaultArr = xhr.response.slice();
       window.photosArr = xhr.response;
-      window.defaultArr = xhr.response;
       onLoad(xhr.response, xhr.response.length);
     });
 

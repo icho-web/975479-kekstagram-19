@@ -10,7 +10,7 @@
   var effectNone = document.querySelector('.effect__none');
   var imgValue = document.querySelector('.scale__control--value');
 
-  var Effect = {
+  var Effects = {
     chrome: {
       NAME: 'chrome',
       ATTRIBUTE: 'grayscale',
@@ -64,23 +64,23 @@
   window.getFilterValue = function (value) {
     var result;
     switch (currentEffect) {
-      case PREVIEW_CLASS_BEGIN + Effect.chrome.NAME:
-        result = compileEffectStyle(Effect.chrome, value);
+      case PREVIEW_CLASS_BEGIN + Effects.chrome.NAME:
+        result = compileEffectStyle(Effects.chrome, value);
         break;
-      case PREVIEW_CLASS_BEGIN + Effect.sepia.NAME:
-        result = compileEffectStyle(Effect.sepia, value);
+      case PREVIEW_CLASS_BEGIN + Effects.sepia.NAME:
+        result = compileEffectStyle(Effects.sepia, value);
         break;
-      case PREVIEW_CLASS_BEGIN + Effect.marvin.NAME:
-        result = compileEffectStyle(Effect.marvin, value);
+      case PREVIEW_CLASS_BEGIN + Effects.marvin.NAME:
+        result = compileEffectStyle(Effects.marvin, value);
         break;
-      case PREVIEW_CLASS_BEGIN + Effect.phobos.NAME:
-        result = compileEffectStyle(Effect.phobos, value);
+      case PREVIEW_CLASS_BEGIN + Effects.phobos.NAME:
+        result = compileEffectStyle(Effects.phobos, value);
         break;
-      case PREVIEW_CLASS_BEGIN + Effect.heat.NAME:
-        result = compileEffectStyle(Effect.heat, value);
+      case PREVIEW_CLASS_BEGIN + Effects.heat.NAME:
+        result = compileEffectStyle(Effects.heat, value);
         break;
-      case Effect.none.NAME:
-        result = Effect.none.NAME;
+      case Effects.none.NAME:
+        result = Effects.none.NAME;
         break;
     }
     return result;
@@ -89,20 +89,20 @@
   window.getFieldsetInputValue = function (value) {
     var result;
     switch (currentEffect) {
-      case PREVIEW_CLASS_BEGIN + Effect.chrome.NAME:
-        result = compileEffectValue(Effect.chrome, value);
+      case PREVIEW_CLASS_BEGIN + Effects.chrome.NAME:
+        result = compileEffectValue(Effects.chrome, value);
         break;
-      case PREVIEW_CLASS_BEGIN + Effect.sepia.NAME:
-        result = compileEffectValue(Effect.sepia, value);
+      case PREVIEW_CLASS_BEGIN + Effects.sepia.NAME:
+        result = compileEffectValue(Effects.sepia, value);
         break;
-      case PREVIEW_CLASS_BEGIN + Effect.marvin.NAME:
-        result = compileEffectValue(Effect.marvin, value) / 100;
+      case PREVIEW_CLASS_BEGIN + Effects.marvin.NAME:
+        result = compileEffectValue(Effects.marvin, value) / 100;
         break;
-      case PREVIEW_CLASS_BEGIN + Effect.phobos.NAME:
-        result = compileEffectValue(Effect.phobos, value) / 3;
+      case PREVIEW_CLASS_BEGIN + Effects.phobos.NAME:
+        result = compileEffectValue(Effects.phobos, value) / 3;
         break;
-      case PREVIEW_CLASS_BEGIN + Effect.heat.NAME:
-        result = compileEffectValue(Effect.heat, value) / 3;
+      case PREVIEW_CLASS_BEGIN + Effects.heat.NAME:
+        result = compileEffectValue(Effects.heat, value) / 3;
         break;
     }
     return result;

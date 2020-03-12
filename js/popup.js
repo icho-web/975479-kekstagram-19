@@ -20,6 +20,10 @@
     window.utils.imgPreview.style.filter = 'none';
     textHashtags.value = '';
     textDescription.value = '';
+    document.removeEventListener('keydown', function () {
+    });
+    document.removeEventListener('mousemove', window.onMouseMove);
+    document.removeEventListener('mouseup', window.onMouseUp);
   };
 
   imgUpload.addEventListener('change', function () {

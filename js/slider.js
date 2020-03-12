@@ -10,7 +10,7 @@
 
   dialogHandler.addEventListener('mousedown', function (evt) {
     var startCoordsX = evt.clientX;
-    var onMouseMove = function (moveEvt) {
+    window.onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
 
       var x = startCoordsX - moveEvt.clientX;
@@ -29,13 +29,13 @@
       effectLevelDepth.style.width = window.coordsX * MAX_PERCENT + '%';
     };
 
-    var onMouseUp = function () {
+    window.onMouseUp = function () {
       effectLevelValue.value = parseInt(window.getFieldsetInputValue(window.coordsX), 10);
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', window.onMouseMove);
+      document.removeEventListener('mouseup', window.onMouseUp);
     };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', window.onMouseMove);
+    document.addEventListener('mouseup', window.onMouseUp);
   });
 })();
