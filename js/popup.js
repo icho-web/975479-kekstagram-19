@@ -6,11 +6,20 @@
   var imgUpload = document.querySelector('.img-upload__input');
   var imgUploadOverlay = document.querySelector('.img-upload__overlay');
   var canselImg = document.querySelector('.img-upload__cancel');
+  var effectNone = document.querySelector('.effect__none');
+  var imgEffectLevel = document.querySelector('.img-upload__effect-level');
+  var textHashtags = document.querySelector('.text__hashtags');
+  var textDescription = document.querySelector('.text__description');
 
-  var closeImg = function () {
+  window.closeImg = function () {
+    effectNone.checked = true;
+    imgEffectLevel.style.display = 'none';
     imgUploadOverlay.classList.add('hidden');
+    imgUpload.value = '';
     body.classList.remove('modal-open');
-    window.utils.imgPreview.style.transform = '';
+    window.utils.imgPreview.style.filter = 'none';
+    textHashtags.value = '';
+    textDescription.value = '';
   };
 
   imgUpload.addEventListener('change', function () {
@@ -22,12 +31,12 @@
     if (evt.key === 'Escape' && (window.utils.textHashtags === document.activeElement || window.utils.textDescription === document.activeElement)) {
       evt.preventDefault();
     } else if (evt.key === 'Escape') {
-      closeImg();
+      window.closeImg();
     }
   });
 
   canselImg.addEventListener('click', function () {
-    closeImg();
+    window.closeImg();
   });
 
   picturesElement.addEventListener('click', function (evt) {
