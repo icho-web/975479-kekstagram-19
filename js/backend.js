@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var STATUS_OK = 200;
   var URL = 'https://js.dump.academy/kekstagram';
   var xhr = new XMLHttpRequest();
   xhr.responseType = 'json';
@@ -21,7 +22,7 @@
     var xhrUpload = new XMLHttpRequest();
 
     xhrUpload.addEventListener('load', function () {
-      if (xhrUpload.status === 200) {
+      if (xhrUpload.status === STATUS_OK) {
         onLoad(xhrUpload.response);
       } else {
         onError(xhrUpload.response);
