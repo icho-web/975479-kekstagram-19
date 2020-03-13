@@ -5,7 +5,7 @@
   var body = document.querySelector('.body');
   var imgUpload = document.querySelector('.img-upload__input');
   var imgUploadOverlay = document.querySelector('.img-upload__overlay');
-  var canselImg = document.querySelector('.img-upload__cancel');
+  var cancelImg = document.querySelector('.img-upload__cancel');
   var effectNone = document.querySelector('.effect__none');
   var imgEffectLevel = document.querySelector('.img-upload__effect-level');
   var textHashtags = document.querySelector('.text__hashtags');
@@ -39,7 +39,7 @@
     }
   });
 
-  canselImg.addEventListener('click', function () {
+  cancelImg.addEventListener('click', function () {
     window.closeImg();
   });
 

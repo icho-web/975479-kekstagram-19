@@ -47,17 +47,16 @@
     window.generate.renderPhoto(byComments, window.photosArr.length);
   };
 
-  var target;
   form.addEventListener('click', function (evt) {
-    target = evt.target;
-    changeFilterSort();
+    var target = evt.target;
+    changeFilterSort(target);
     for (var i = 0; i < formButtons.length; i++) {
       formButtons[i].classList.remove('img-filters__button--active');
     }
     target.classList.add('img-filters__button--active');
   });
 
-  var changeFilterSort = function () {
+  var changeFilterSort = function (target) {
     switch (target.id) {
       case 'filter-default':
         window.debounce(getResetPhotos);

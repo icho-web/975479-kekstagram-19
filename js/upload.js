@@ -13,7 +13,7 @@
 
   var succesElement;
   var errorElement;
-  var copyHandler = function (element, copy) {
+  var onCopySection = function (element, copy) {
     window.closeImg();
     element = copy.cloneNode(true);
     var fragment = document.createDocumentFragment();
@@ -42,16 +42,16 @@
     var data = new FormData(form);
     evt.preventDefault();
 
-    var succesHandler = function () {
-      copyHandler(succesElement, success);
+    var onSuccess = function () {
+      onCopySection(succesElement, success);
       var successSection = document.querySelector('.success');
       var successButton = document.querySelector('.success__button');
       onButtonClick(successSection, successButton);
     };
 
-    var errorHandler = function () {
+    var onError = function () {
       window.closeImg();
-      copyHandler(errorElement, error);
+      onCopySection(errorElement, error);
       var errorSection = document.querySelector('.error');
       var errorButton = document.querySelector('.error__button');
 
@@ -59,7 +59,7 @@
     };
 
 
-    window.backend.save(data, succesHandler, errorHandler);
+    window.backend.save(data, onSuccess, onError);
   });
 
 })();
