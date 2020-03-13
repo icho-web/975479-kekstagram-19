@@ -9,7 +9,7 @@
     window.utils.imgPreview.style.transform = 'scale(' + (valueOfScale) + ')';
   };
 
-  var setControlValueInc = function (evt) {
+  var onControlValueInc = function (evt) {
     evt.preventDefault();
     switch (imgValue.value) {
       case '25%':
@@ -27,7 +27,7 @@
     }
   };
 
-  var setControlValueDec = function (evt) {
+  var onControlValueDec = function (evt) {
     evt.preventDefault();
     switch (imgValue.value) {
       case '50%':
@@ -45,6 +45,6 @@
     }
   };
 
-  biggerImg.addEventListener('click', setControlValueInc);
-  smallerImg.addEventListener('click', setControlValueDec);
+  biggerImg.addEventListener('click', onControlValueInc);
+  smallerImg.addEventListener('click', onControlValueDec);
 })();

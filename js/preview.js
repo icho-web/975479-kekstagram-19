@@ -65,12 +65,12 @@
     render(picturesCount, window.photo);
   });
 
-  window.pictureCancel = function () {
+  window.onPictureCancel = function () {
     picturesCount = PICTURES_COUNT;
     bigPicture.classList.add('hidden');
     commentsLoader.classList.remove('hidden');
     document.body.classList.remove('modal-open');
   };
 
-  bigPictureCancel.addEventListener('click', window.pictureCancel);
+  bigPictureCancel.addEventListener('click', window.onPictureCancel);
 })();

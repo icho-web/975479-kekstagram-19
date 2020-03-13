@@ -61,7 +61,7 @@
     return (elem.MIN_VALUE + value * (elem.MAX_VALUE - elem.MIN_VALUE)) * 100;
   };
 
-  window.getFilterValue = function (value) {
+  var getFilterValue = function (value) {
     var result;
     switch (currentEffect) {
       case PREVIEW_CLASS_BEGIN + Effects.chrome.NAME:
@@ -86,7 +86,7 @@
     return result;
   };
 
-  window.getFieldsetInputValue = function (value) {
+  var getFieldsetInputValue = function (value) {
     var result;
     switch (currentEffect) {
       case PREVIEW_CLASS_BEGIN + Effects.chrome.NAME:
@@ -127,7 +127,13 @@
       imgEffectLevel.style.display = 'block';
       window.utils.imgPreview.classList.add(PREVIEW_CLASS_BEGIN + target.value);
       currentEffect = PREVIEW_CLASS_BEGIN + target.value;
-      window.utils.imgPreview.style = window.getFilterValue(1);
+      window.utils.imgPreview.style = window.filterUtil.getFilterValue(1);
     }
   });
+
+  window.filterUtil = {
+    getFilterValue: getFilterValue,
+    getFieldsetInputValue: getFieldsetInputValue
+  };
+
 })();

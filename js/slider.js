@@ -25,12 +25,12 @@
       startCoordsX = moveEvt.clientX;
       dialogHandler.style.left = (dialogHandler.offsetLeft - x) + 'px';
       window.coordsX = ((parseInt(dialogHandler.style.left, 10) * MAX_PERCENT) / MAX_LENGTH) / MAX_PERCENT;
-      window.utils.imgPreview.style.filter = window.getFilterValue(window.coordsX);
+      window.utils.imgPreview.style.filter = window.filterUtil.getFilterValue(window.coordsX);
       effectLevelDepth.style.width = window.coordsX * MAX_PERCENT + '%';
     };
 
     window.onMouseUp = function () {
-      effectLevelValue.value = parseInt(window.getFieldsetInputValue(window.coordsX), 10);
+      effectLevelValue.value = parseInt(window.filterUtil.getFieldsetInputValue(window.coordsX), 10);
       document.removeEventListener('mousemove', window.onMouseMove);
       document.removeEventListener('mouseup', window.onMouseUp);
     };

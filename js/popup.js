@@ -53,7 +53,7 @@
     if (evt.target.tagName === 'A' && evt.key === 'Enter') {
       window.renderBigPicture(evt);
     } else if (evt.key === 'Escape') {
-      window.pictureCancel();
+      window.onPictureCancel();
     }
   });
 

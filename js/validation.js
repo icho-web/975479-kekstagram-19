@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var MAX_TAGS = 20;
+  var MAX_TAGS = 5;
   var MAX_TAG_LENGTH = 20;
   var MAX_COMMENT_LENGTH = 140;
   var imgForm = document.querySelector('.img-upload__form');
@@ -12,7 +12,7 @@
   };
 
   imgForm.addEventListener('input', function () {
-    tagsArr = window.utils.textHashtags.value.split(' ');
+    tagsArr = window.utils.textHashtags.value.toLowerCase().split(' ');
     tagsArr.forEach(function (item) {
       if (window.utils.textHashtags.value === '') {
         window.utils.textHashtags.setCustomValidity('');
